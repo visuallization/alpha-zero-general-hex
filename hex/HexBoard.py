@@ -13,11 +13,13 @@ class HexBoard():
             for y in range(self.size):
                 if self.positions[x][y] == 0:
                     moves.append((x, y))
-        return moves
-        # if recodeBlackAsWhite:
-        #     return [self.recodeCoordinates(move) for move in moves]
-        # else:
-        #     return moves
+
+        # return [self.recodeCoordinates(move) for move in moves]
+        # return moves
+        if recodeBlackAsWhite:
+            return [self.recodeCoordinates(move) for move in moves]
+        else:
+            return moves
 
     def recodeCoordinates (self, coordinates):
         """

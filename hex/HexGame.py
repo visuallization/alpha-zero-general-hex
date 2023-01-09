@@ -56,23 +56,23 @@ class HexGame(Game):
     def getCanonicalForm(self, positions, player):
         board = HexBoard(self.size)
         board.positions = np.copy(positions)
-        return board.positions
-        # if player == 1:
-        #     return board.positions
+        # return board.positions
+        if player == 1:
+            return board.positions
 
-        # if player == -1:
-        #     """
-        #     Returns a board where black is recoded as white and wants to connect horizontally. This corresponds to flipping the board along the south-west to north-east diagonal and swapping colors.
-        #     """
-        #     flipped_board = self.getInitBoard()
-        #     #flipping and color change
-        #     for i in range(self.size):
-        #         for j in range(self.size):
-        #             if board[self.size-1-j][self.size-1-i] == 1:
-        #                 flipped_board[i][j] = -1
-        #             if board[self.size-1-j][self.size-1-i] == -1:
-        #                 flipped_board[i][j] = 1
-        #     return flipped_board
+        if player == -1:
+            """
+            Returns a board where black is recoded as white and wants to connect horizontally. This corresponds to flipping the board along the south-west to north-east diagonal and swapping colors.
+            """
+            flipped_board = self.getInitBoard()
+            #flipping and color change
+            for i in range(self.size):
+                for j in range(self.size):
+                    if board[self.size-1-j][self.size-1-i] == 1:
+                        flipped_board[i][j] = -1
+                    if board[self.size-1-j][self.size-1-i] == -1:
+                        flipped_board[i][j] = 1
+            return flipped_board
 
         # return player * board.positions
 

@@ -57,7 +57,7 @@ class Coach():
             canonicalBoard = self.game.getCanonicalForm(board, self.curPlayer)
             temp = int(episodeStep < self.args.tempThreshold)
 
-            pi = self.mcts.getActionProb(canonicalBoard, temp=temp)
+            pi = self.mcts.getActionProb(canonicalBoard, temp=temp, player=self.curPlayer)
             sym = self.game.getSymmetries(canonicalBoard, pi)
             for b, p in sym:
                 trainExamples.append([b, self.curPlayer, p, None])
@@ -116,9 +116,9 @@ class Coach():
             nmcts = MCTS(self.game, self.nnet, self.args)
 
             log.info('PITTING AGAINST PREVIOUS VERSION')
-            arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, temp=0)),
-                          lambda x: np.argmax(nmcts.getActionProb(x, temp=0)), self.game, display=HexGame.display)
-            pwins, nwins, draws = arena.playGames(self.args.arenaCompare, verbose=False)
+            arena = Arena(lambda x, y: np.argmax(pmcts.getActionProb(x, temp=0, player=y)),
+                          lambda x, y: np.argmax(nmcts.getActionProb(x, temp=0, player=y)), self.game, display=HexGame.display)
+            pwins, nwins, draws = arena.playGames(self.args.arenaCompare, verbose=True)
 
             log.info('NEW/PREV WINS : %d / %d ; DRAWS : %d' % (nwins, pwins, draws))
             if pwins + nwins == 0 or float(nwins) / (pwins + nwins) < self.args.updateThreshold:
